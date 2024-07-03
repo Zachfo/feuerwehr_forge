@@ -13,7 +13,7 @@ class _QuizScreenState extends State<QuizScreen> {
   int _score = 0;
 
   void _answerQuestion(int selectedIndex) {
-    if (sampleQuestions[_currentQuestionIndex].correctAnswerIndex == selectedIndex) {
+    if (questions[_currentQuestionIndex].correctAnswerIndex == selectedIndex) {
       _score++;
     }
 
@@ -28,7 +28,7 @@ class _QuizScreenState extends State<QuizScreen> {
       appBar: AppBar(
         title: const Text('Feuerwehr Forge'),
       ),
-      body: _currentQuestionIndex < sampleQuestions.length
+      body: _currentQuestionIndex < questions.length
           ? Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -36,12 +36,12 @@ class _QuizScreenState extends State<QuizScreen> {
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Text(
-              sampleQuestions[_currentQuestionIndex].questionText,
+              questions[_currentQuestionIndex].questionText,
               style: const TextStyle(fontSize: 24.0),
               textAlign: TextAlign.center,
             ),
           ),
-          ...sampleQuestions[_currentQuestionIndex].options.asMap().entries.map((entry) {
+          ...questions[_currentQuestionIndex].options.asMap().entries.map((entry) {
             int index = entry.key;
             String option = entry.value;
             return Padding(
@@ -56,7 +56,7 @@ class _QuizScreenState extends State<QuizScreen> {
       )
           : Center(
         child: Text(
-          'Your score is $_score/${sampleQuestions.length}',
+          'Your score is $_score/${questions.length}',
           style: const TextStyle(fontSize: 24.0),
           textAlign: TextAlign.center,
         ),
