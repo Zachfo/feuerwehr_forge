@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'screens/quiz_screen.dart';
+import 'screens/start_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -19,16 +19,21 @@ class MyApp extends StatelessWidget {
         ).copyWith(
           secondary: Colors.redAccent,
         ),
+        scaffoldBackgroundColor: Colors.red[50],
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Colors.red, // Hintergrundfarbe der AppBar
+          foregroundColor: Colors.white, // Textfarbe der AppBar
+        ),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.redAccent,
+            backgroundColor: Colors.red[200],
             foregroundColor: Colors.black, shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12.0),
             ),
           ),
         ),
       ),
-      home: const QuizScreen(),
+      home: const StartScreen(),
     );
   }
 }

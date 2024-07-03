@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import '../data/sample_data.dart';
 
 class QuizScreen extends StatefulWidget {
-  const QuizScreen({super.key});
+  final int numberOfQuestions;
+
+  const QuizScreen({super.key, required this.numberOfQuestions});
 
   @override
   _QuizScreenState createState() => _QuizScreenState();
@@ -27,11 +29,9 @@ class _QuizScreenState extends State<QuizScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Feuerwehr Forge'),
-        backgroundColor: Colors.red[700],
-        foregroundColor: Colors.white,
       ),
-      backgroundColor: Colors.red[50],
-      body: _currentQuestionIndex < questions.length
+      backgroundColor: Colors.red[50], // Blasseres Rot für den Hintergrund des Screens
+      body: _currentQuestionIndex < widget.numberOfQuestions && _currentQuestionIndex < questions.length
           ? Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -51,9 +51,6 @@ class _QuizScreenState extends State<QuizScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
               child: ElevatedButton(
                 onPressed: () => _answerQuestion(index),
-                style: Theme.of(context).elevatedButtonTheme.style?.copyWith(
-                  backgroundColor: WidgetStateProperty.all(Colors.red[200]), // Adjust the color as needed
-                ),
                 child: Text(option, style: const TextStyle(fontSize: 18.0)),
               ),
             );
@@ -62,7 +59,7 @@ class _QuizScreenState extends State<QuizScreen> {
       )
           : Center(
         child: Text(
-          'Your score is $_score/${questions.length}',
+          'Richtige Antworten $_score/${widget.numberOfQuestions}',
           style: const TextStyle(fontSize: 24.0),
           textAlign: TextAlign.center,
         ),
