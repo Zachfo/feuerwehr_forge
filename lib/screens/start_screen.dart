@@ -38,6 +38,16 @@ class StartScreen extends StatelessWidget {
               child: SizedBox(
                 width: buttonWidth,
                 child: ElevatedButton(
+                  onPressed: () => _startQuiz(context, 2),
+                  child: const Text('2', style: TextStyle(fontSize: 18.0)),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+              child: SizedBox(
+                width: buttonWidth,
+                child: ElevatedButton(
                   onPressed: () => _startQuiz(context, 5),
                   child: const Text('5', style: TextStyle(fontSize: 18.0)),
                 ),

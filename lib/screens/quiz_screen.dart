@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import '../data/sample_data.dart';
+import 'result_screen.dart'; // Neuer Screen für die Ergebnisse
 
 class QuizScreen extends StatefulWidget {
   final int numberOfQuestions;
@@ -15,6 +16,7 @@ class _QuizScreenState extends State<QuizScreen> {
   int _currentQuestionIndex = 0;
   int _score = 0;
   late List<int> _questionOrder;
+  Map<int, bool> _correctAnswers = {}; // Speichert die Korrektheit jeder Frage
 
   @override
   void initState() {
@@ -24,13 +26,31 @@ class _QuizScreenState extends State<QuizScreen> {
   }
 
   void _answerQuestion(int selectedIndex) {
-    if (questions[_questionOrder[_currentQuestionIndex]].correctAnswerIndex == selectedIndex) {
+    bool correct = questions[_questionOrder[_currentQuestionIndex]].correctAnswerIndex == selectedIndex;
+    _correctAnswers[_currentQuestionIndex] = correct;
+
+    if (correct) {
       _score++;
     }
 
     setState(() {
       _currentQuestionIndex++;
     });
+  }
+
+  void _showResultScreen() {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ResultScreen(
+          numberOfQuestions: widget.numberOfQuestions,
+          correctAnswers: _correctAnswers,
+          questions: questions,
+          questionOrder: _questionOrder,
+          score: _score,
+        ),
+      ),
+    );
   }
 
   @override
@@ -67,10 +87,9 @@ class _QuizScreenState extends State<QuizScreen> {
         ],
       )
           : Center(
-        child: Text(
-          'Richtige Antworten $_score/${widget.numberOfQuestions}',
-          style: const TextStyle(fontSize: 24.0),
-          textAlign: TextAlign.center,
+        child: ElevatedButton(
+          onPressed: _showResultScreen,
+          child: const Text('Zum Ergebnis'),
         ),
       ),
     );
