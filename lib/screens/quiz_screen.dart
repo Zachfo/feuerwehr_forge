@@ -52,7 +52,7 @@ class _QuizScreenState extends State<QuizScreen> {
               child: ElevatedButton(
                 onPressed: () => _answerQuestion(index),
                 style: Theme.of(context).elevatedButtonTheme.style?.copyWith(
-                  backgroundColor: MaterialStateProperty.all(Colors.red[200]), // Adjust the color as needed
+                  backgroundColor: WidgetStateProperty.all(Colors.red[200]), // Adjust the color as needed
                 ),
                 child: Text(option, style: const TextStyle(fontSize: 18.0)),
               ),
