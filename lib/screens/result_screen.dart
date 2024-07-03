@@ -1,70 +1,103 @@
 import 'package:flutter/material.dart';
-import '../data/sample_data.dart';
 import '../models/question.dart';
 
 class ResultScreen extends StatelessWidget {
   final int numberOfQuestions;
   final Map<int, bool> correctAnswers;
   final List<Question> questions;
-  final List<int> questionOrder; // questionOrder hinzugefügt
+  final List<int> questionOrder;
   final int score;
+  final List<List<int>> shuffledOptionIndexes;
 
   const ResultScreen({
-    Key? key,
+    super.key,
     required this.numberOfQuestions,
     required this.correctAnswers,
     required this.questions,
     required this.questionOrder,
     required this.score,
-  }) : super(key: key);
+    required this.shuffledOptionIndexes,
+  });
 
   @override
   Widget build(BuildContext context) {
-    List<int> incorrectIndexes = [];
-    correctAnswers.forEach((index, correct) {
-      if (!correct) {
-        incorrectIndexes.add(index);
-      }
-    });
+    List<int> incorrectIndexes = correctAnswers.entries
+        .where((entry) => !entry.value)
+        .map((entry) => entry.key)
+        .toList();
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Ergebnisse'),
+        title: const Text('Ergebnis'),
       ),
-      body: Center(
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Text(
+                'Richtige Antworten: $score / $numberOfQuestions',
+                style: const TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 20),
+              if (incorrectIndexes.isNotEmpty) ...[
+                const Text(
+                  'Falsch beantwortete Fragen:',
+                  style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 10),
+                ...incorrectIndexes.map((index) => _buildQuestionCard(index)),
+              ],
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+
+  Widget _buildQuestionCard(int index) {
+    int questionIndex = questionOrder[index];
+    int correctAnswerIndex = questions[questionIndex].correctAnswerIndex;
+    int shuffledCorrectAnswerIndex = shuffledOptionIndexes[questionIndex].indexOf(correctAnswerIndex);
+
+    return Card(
+      elevation: 4,
+      margin: const EdgeInsets.only(bottom: 16),
+      child: Padding(
+        padding: const EdgeInsets.all(16),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Richtige Antworten: $score / $numberOfQuestions',
-              style: const TextStyle(fontSize: 24.0),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 20),
-            if (incorrectIndexes.isNotEmpty) ...[
-              const Text(
-                'Falsch beantwortete Fragen:',
-                style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+              "Frage ${index + 1}",
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                color: Colors.blue,
               ),
-              const SizedBox(height: 10),
-              ...incorrectIndexes.map((index) {
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Text(
-                      "${questionOrder[index]}. ${questions[questionOrder[index]].questionText}",
-                      style: const TextStyle(fontSize: 18.0),
-                    ),
-                    const SizedBox(height: 5),
-                    Text(
-                      'Richtige Antwort: ${questions[questionOrder[index]].options[questions[questionOrder[index]].correctAnswerIndex]}',
-                      style: const TextStyle(fontSize: 16.0, fontStyle: FontStyle.italic),
-                    ),
-                    const Divider(),
-                  ],
-                );
-              }),
-            ],
+            ),
+            const SizedBox(height: 8),
+            Text(
+              questions[questionIndex].questionText,
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+            ),
+            const SizedBox(height: 12),
+            const Text(
+              'Richtige Antwort:',
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                color: Colors.green,
+              ),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              questions[questionIndex].options[correctAnswerIndex],
+              style: const TextStyle(fontSize: 16, fontStyle: FontStyle.italic),
+            ),
           ],
         ),
       ),

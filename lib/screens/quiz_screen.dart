@@ -1,7 +1,8 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import '../data/sample_data.dart';
-import 'result_screen.dart'; // Neuer Screen für die Ergebnisse
+import '../models/question.dart';
+import 'result_screen.dart';
 
 class QuizScreen extends StatefulWidget {
   final int numberOfQuestions;
@@ -16,17 +17,24 @@ class _QuizScreenState extends State<QuizScreen> {
   int _currentQuestionIndex = 0;
   int _score = 0;
   late List<int> _questionOrder;
-  Map<int, bool> _correctAnswers = {}; // Speichert die Korrektheit jeder Frage
+  final Map<int, bool> _correctAnswers = {};
+  late List<List<int>> _shuffledOptionIndexes;
 
   @override
   void initState() {
     super.initState();
     _questionOrder = List<int>.generate(questions.length, (index) => index);
-    _questionOrder.shuffle(); // Mischen der Fragenliste
+    _questionOrder.shuffle();
+    _shuffledOptionIndexes = List.generate(
+      questions.length,
+          (index) => List<int>.generate(questions[index].options.length, (i) => i)..shuffle(),
+    );
   }
 
-  void _answerQuestion(int selectedIndex) {
-    bool correct = questions[_questionOrder[_currentQuestionIndex]].correctAnswerIndex == selectedIndex;
+  void _answerQuestion(int selectedShuffledIndex) {
+    int originalIndex = _shuffledOptionIndexes[_questionOrder[_currentQuestionIndex]]
+        .indexOf(questions[_questionOrder[_currentQuestionIndex]].correctAnswerIndex);
+    bool correct = selectedShuffledIndex == originalIndex;
     _correctAnswers[_currentQuestionIndex] = correct;
 
     if (correct) {
@@ -48,6 +56,7 @@ class _QuizScreenState extends State<QuizScreen> {
           questions: questions,
           questionOrder: _questionOrder,
           score: _score,
+          shuffledOptionIndexes: _shuffledOptionIndexes,
         ),
       ),
     );
@@ -73,13 +82,14 @@ class _QuizScreenState extends State<QuizScreen> {
               textAlign: TextAlign.center,
             ),
           ),
-          ...questions[_questionOrder[_currentQuestionIndex]].options.asMap().entries.map((entry) {
-            int index = entry.key;
-            String option = entry.value;
+          ..._shuffledOptionIndexes[_questionOrder[_currentQuestionIndex]].asMap().entries.map((entry) {
+            int shuffledIndex = entry.key;
+            int originalIndex = entry.value;
+            String option = questions[_questionOrder[_currentQuestionIndex]].options[originalIndex];
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
               child: ElevatedButton(
-                onPressed: () => _answerQuestion(index),
+                onPressed: () => _answerQuestion(shuffledIndex),
                 child: Text(option, style: const TextStyle(fontSize: 18.0)),
               ),
             );
