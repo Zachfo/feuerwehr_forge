@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import '../data/sample_data.dart';
 
 class QuizScreen extends StatefulWidget {
+  const QuizScreen({super.key});
+
   @override
   _QuizScreenState createState() => _QuizScreenState();
 }
@@ -24,7 +26,7 @@ class _QuizScreenState extends State<QuizScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Exam Preparation App'),
+        title: const Text('Feuerwehr Forge'),
       ),
       body: _currentQuestionIndex < sampleQuestions.length
           ? Column(
@@ -35,7 +37,7 @@ class _QuizScreenState extends State<QuizScreen> {
             padding: const EdgeInsets.all(16.0),
             child: Text(
               sampleQuestions[_currentQuestionIndex].questionText,
-              style: TextStyle(fontSize: 24.0),
+              style: const TextStyle(fontSize: 24.0),
               textAlign: TextAlign.center,
             ),
           ),
@@ -46,7 +48,7 @@ class _QuizScreenState extends State<QuizScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
               child: ElevatedButton(
                 onPressed: () => _answerQuestion(index),
-                child: Text(option, style: TextStyle(fontSize: 18.0)),
+                child: Text(option, style: const TextStyle(fontSize: 18.0)),
               ),
             );
           }),
@@ -55,7 +57,7 @@ class _QuizScreenState extends State<QuizScreen> {
           : Center(
         child: Text(
           'Your score is $_score/${sampleQuestions.length}',
-          style: TextStyle(fontSize: 24.0),
+          style: const TextStyle(fontSize: 24.0),
           textAlign: TextAlign.center,
         ),
       ),
