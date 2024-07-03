@@ -11,9 +11,22 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Exam Preparation App',
+      title: 'Feuerwehr Forge',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.red,
+        colorScheme: ColorScheme.fromSwatch(
+          primarySwatch: Colors.red,
+        ).copyWith(
+          secondary: Colors.redAccent,
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.redAccent,
+            foregroundColor: Colors.black, shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12.0),
+            ),
+          ),
+        ),
       ),
       home: const QuizScreen(),
     );

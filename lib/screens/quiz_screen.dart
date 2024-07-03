@@ -27,7 +27,10 @@ class _QuizScreenState extends State<QuizScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Feuerwehr Forge'),
+        backgroundColor: Colors.red[700],
+        foregroundColor: Colors.white,
       ),
+      backgroundColor: Colors.red[50],
       body: _currentQuestionIndex < questions.length
           ? Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -48,6 +51,9 @@ class _QuizScreenState extends State<QuizScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
               child: ElevatedButton(
                 onPressed: () => _answerQuestion(index),
+                style: Theme.of(context).elevatedButtonTheme.style?.copyWith(
+                  backgroundColor: MaterialStateProperty.all(Colors.red[200]), // Adjust the color as needed
+                ),
                 child: Text(option, style: const TextStyle(fontSize: 18.0)),
               ),
             );
