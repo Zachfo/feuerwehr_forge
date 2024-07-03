@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
         ).copyWith(
           secondary: Colors.redAccent,
         ),
-        scaffoldBackgroundColor: Colors.red[50],
+        scaffoldBackgroundColor: Colors.red[50], // Hintergrundfarbe der gesamten App
         appBarTheme: const AppBarTheme(
           backgroundColor: Colors.red, // Hintergrundfarbe der AppBar
           foregroundColor: Colors.white, // Textfarbe der AppBar
@@ -27,7 +27,8 @@ class MyApp extends StatelessWidget {
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.red[200],
-            foregroundColor: Colors.black, shape: RoundedRectangleBorder(
+            foregroundColor: Colors.black,
+            shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12.0),
             ),
           ),
