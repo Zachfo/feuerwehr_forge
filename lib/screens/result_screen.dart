@@ -8,6 +8,7 @@ class ResultScreen extends StatelessWidget {
   final List<int> questionOrder;
   final int score;
   final List<List<int>> shuffledOptionIndexes;
+  final String topic; // Neuer Parameter für das Topic
 
   const ResultScreen({
     super.key,
@@ -17,6 +18,7 @@ class ResultScreen extends StatelessWidget {
     required this.questionOrder,
     required this.score,
     required this.shuffledOptionIndexes,
+    required this.topic, // Hinzugefügt zum Konstruktor
   });
 
   @override
@@ -28,7 +30,7 @@ class ResultScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Ergebnis'),
+        title: Text('Ergebnis - $topic'), // Topic im AppBar-Titel
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -36,6 +38,12 @@ class ResultScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              Text(
+                'Thema: $topic', // Anzeige des Topics
+                style: const TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 20),
               Text(
                 'Richtige Antworten: $score / $numberOfQuestions',
                 style: const TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
@@ -56,7 +64,6 @@ class ResultScreen extends StatelessWidget {
       ),
     );
   }
-
 
   Widget _buildQuestionCard(int index) {
     int questionIndex = questionOrder[index];

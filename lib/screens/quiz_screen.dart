@@ -1,13 +1,15 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import '../data/sample_data.dart';
+import '../data/grundausbildung_questions.dart' as grundausbildung;
+import '../data/fwdv3_questions.dart' as fwdv3;
 import '../models/question.dart';
 import 'result_screen.dart';
 
 class QuizScreen extends StatefulWidget {
   final int numberOfQuestions;
+  final String topic;
 
-  const QuizScreen({Key? key, required this.numberOfQuestions}) : super(key: key);
+  const QuizScreen({super.key, required this.numberOfQuestions, required this.topic});
 
   @override
   _QuizScreenState createState() => _QuizScreenState();
@@ -19,16 +21,28 @@ class _QuizScreenState extends State<QuizScreen> {
   late List<int> _questionOrder;
   final Map<int, bool> _correctAnswers = {};
   late List<List<int>> _shuffledOptionIndexes;
+  late List<Question> questions;
 
   @override
   void initState() {
     super.initState();
+    questions = _loadQuestions();
     _questionOrder = List<int>.generate(questions.length, (index) => index);
     _questionOrder.shuffle();
     _shuffledOptionIndexes = List.generate(
       questions.length,
           (index) => List<int>.generate(questions[index].options.length, (i) => i)..shuffle(),
     );
+  }
+
+  List<Question> _loadQuestions() {
+    if (widget.topic == 'Grundausbildung') {
+      return grundausbildung.questions;
+    } else if (widget.topic == 'FwDV3') {
+      return fwdv3.questions;
+    } else {
+      throw Exception('Unbekanntes Thema: ${widget.topic}');
+    }
   }
 
   void _answerQuestion(int selectedShuffledIndex) {
@@ -57,6 +71,7 @@ class _QuizScreenState extends State<QuizScreen> {
           questionOrder: _questionOrder,
           score: _score,
           shuffledOptionIndexes: _shuffledOptionIndexes,
+          topic: widget.topic,
         ),
       ),
     );
@@ -66,7 +81,7 @@ class _QuizScreenState extends State<QuizScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Feuerwehr Forge'),
+        title: Text('${widget.topic} - Frage ${_currentQuestionIndex + 1}'),
       ),
       backgroundColor: Colors.red[50],
       body: _currentQuestionIndex < widget.numberOfQuestions && _currentQuestionIndex < questions.length

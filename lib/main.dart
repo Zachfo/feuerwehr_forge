@@ -1,3 +1,4 @@
+import 'package:feuerwehr_forge/screens/initial_start_screen.dart';
 import 'package:flutter/material.dart';
 import 'screens/start_screen.dart';
 
@@ -34,7 +35,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: const StartScreen(),
+      home: const InitialStartScreen(),
     );
   }
 }
