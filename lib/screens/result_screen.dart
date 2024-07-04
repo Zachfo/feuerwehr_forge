@@ -68,7 +68,6 @@ class ResultScreen extends StatelessWidget {
   Widget _buildQuestionCard(int index) {
     int questionIndex = questionOrder[index];
     int correctAnswerIndex = questions[questionIndex].correctAnswerIndex;
-    int shuffledCorrectAnswerIndex = shuffledOptionIndexes[questionIndex].indexOf(correctAnswerIndex);
 
     return Card(
       elevation: 4,
