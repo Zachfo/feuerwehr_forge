@@ -23,7 +23,7 @@ class StartScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('$topic - Fragen'),
+        title: Text('$topic'),
       ),
       body: Center(
         child: Column(

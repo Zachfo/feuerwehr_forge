@@ -54,9 +54,13 @@ class _QuizScreenState extends State<QuizScreen> {
       _score++;
     }
 
-    setState(() {
-      _currentQuestionIndex++;
-    });
+    if (_currentQuestionIndex + 1 >= widget.numberOfQuestions || _currentQuestionIndex + 1 >= questions.length) {
+      _showResultScreen();
+    } else {
+      setState(() {
+        _currentQuestionIndex++;
+      });
+    }
   }
 
   void _showResultScreen() {
@@ -110,11 +114,8 @@ class _QuizScreenState extends State<QuizScreen> {
           }),
         ],
       )
-          : Center(
-        child: ElevatedButton(
-          onPressed: _showResultScreen,
-          child: const Text('Zum Ergebnis'),
-        ),
+          : const Center(
+        child: CircularProgressIndicator(),
       ),
     );
   }
