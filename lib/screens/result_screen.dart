@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/question.dart';
+import 'stats_screen.dart'; // Importiere die Statistik-Seite
 
 class ResultScreen extends StatelessWidget {
   final int numberOfQuestions;
@@ -20,6 +21,15 @@ class ResultScreen extends StatelessWidget {
     required this.shuffledOptionIndexes,
     required this.topic, // Hinzugefügt zum Konstruktor
   });
+
+  void _showStatsScreen(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => StatsScreen(), // Navigation zur Statistik-Seite
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,6 +68,20 @@ class ResultScreen extends StatelessWidget {
                 const SizedBox(height: 10),
                 ...incorrectIndexes.map((index) => _buildQuestionCard(index)),
               ],
+              const SizedBox(height: 40), // Größerer Abstand zum Statistik-Button
+              ElevatedButton.icon(
+                onPressed: () => _showStatsScreen(context),
+                icon: const Icon(Icons.bar_chart),
+                label: const Text(
+                  'Statistik',
+                  style: TextStyle(fontSize: 18.0),
+                ),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.red[300], // Unterschiedliche Hintergrundfarbe
+                  padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0), // Größere Polsterung
+                  textStyle: const TextStyle(fontSize: 20.0), // Größere Schriftgröße
+                ),
+              ),
             ],
           ),
         ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../services/stats_service.dart';
 import '../data/grundausbildung_questions.dart' as grundausbildung;
 import '../data/fwdv3_questions.dart' as fwdv3;
 import '../models/question.dart';
@@ -21,6 +22,7 @@ class _QuizScreenState extends State<QuizScreen> {
   final Map<int, bool> _correctAnswers = {};
   late List<List<int>> _shuffledOptionIndexes;
   late List<Question> questions;
+  final StatsService _statsService = StatsService();
 
   @override
   void initState() {
@@ -44,14 +46,16 @@ class _QuizScreenState extends State<QuizScreen> {
     }
   }
 
-  void _answerQuestion(int selectedShuffledIndex) {
+  void _answerQuestion(int selectedShuffledIndex) async {
     int originalIndex = _shuffledOptionIndexes[_questionOrder[_currentQuestionIndex]]
         .indexOf(questions[_questionOrder[_currentQuestionIndex]].correctAnswerIndex);
     bool correct = selectedShuffledIndex == originalIndex;
     _correctAnswers[_currentQuestionIndex] = correct;
 
+    await _statsService.incrementTotalQuestions();
     if (correct) {
-      _score++;
+      _score++; // Points per correct answer
+      await _statsService.incrementCorrectAnswers();
     }
 
     if (_currentQuestionIndex + 1 >= widget.numberOfQuestions || _currentQuestionIndex + 1 >= questions.length) {
@@ -82,6 +86,7 @@ class _QuizScreenState extends State<QuizScreen> {
 
   @override
   Widget build(BuildContext context) {
+    double progress = (_currentQuestionIndex + 1) / widget.numberOfQuestions;
     return Scaffold(
       appBar: AppBar(
         title: Text('${widget.topic} - Frage ${_currentQuestionIndex + 1}'),
@@ -92,6 +97,7 @@ class _QuizScreenState extends State<QuizScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          LinearProgressIndicator(value: progress),
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Text(
@@ -112,6 +118,14 @@ class _QuizScreenState extends State<QuizScreen> {
               ),
             );
           }),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Text(
+              'Punkte: $_score',
+              style: const TextStyle(fontSize: 20.0),
+              textAlign: TextAlign.center,
+            ),
+          ),
         ],
       )
           : const Center(
