@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'start_screen.dart';
 
 class InitialStartScreen extends StatelessWidget {
-  const InitialStartScreen({Key? key}) : super(key: key);
+  const InitialStartScreen({super.key});
 
   void _selectTopic(BuildContext context, String topic) {
     Navigator.push(

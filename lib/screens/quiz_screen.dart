@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
 import '../data/grundausbildung_questions.dart' as grundausbildung;
 import '../data/fwdv3_questions.dart' as fwdv3;

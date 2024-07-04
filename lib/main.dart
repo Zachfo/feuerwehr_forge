@@ -1,6 +1,5 @@
 import 'package:feuerwehr_forge/screens/initial_start_screen.dart';
 import 'package:flutter/material.dart';
-import 'screens/start_screen.dart';
 
 void main() {
   runApp(const MyApp());

@@ -5,7 +5,7 @@ import 'quiz_screen.dart';
 class StartScreen extends StatelessWidget {
   final String topic;
 
-  const StartScreen({Key? key, required this.topic}) : super(key: key);
+  const StartScreen({super.key, required this.topic});
 
   void _startQuiz(BuildContext context, int numberOfQuestions) {
     Navigator.push(
