@@ -27,4 +27,10 @@ class StatsService {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getInt(_correctAnswersKey) ?? 0;
   }
+
+  Future<void> resetStats() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setInt(_totalQuestionsKey, 0);
+    await prefs.setInt(_correctAnswersKey, 0);
+  }
 }

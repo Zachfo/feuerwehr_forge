@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+
+import 'disclaimer_screen.dart';
 import 'start_screen.dart';
-import 'stats_screen.dart'; // Importiere die Statistik-Seite
+import 'stats_screen.dart';
 
 class InitialStartScreen extends StatelessWidget {
   const InitialStartScreen({super.key});
@@ -19,6 +21,15 @@ class InitialStartScreen extends StatelessWidget {
       context,
       MaterialPageRoute(
         builder: (context) => StatsScreen(), // Navigation zur Statistik-Seite
+      ),
+    );
+  }
+
+  void _showDisclaimerScreen(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const DisclaimerScreen(),
       ),
     );
   }
@@ -44,29 +55,29 @@ class InitialStartScreen extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
             ),
-            Container(
+            SizedBox(
               width: buttonWidth,
               child: ElevatedButton(
                 onPressed: () => _selectTopic(context, 'Grundausbildung'),
-                child: const Text('Grundausbildung'),
                 style: ElevatedButton.styleFrom(
-                  minimumSize: Size(buttonWidth, buttonHeight),
+                  minimumSize: const Size(buttonWidth, buttonHeight),
                 ),
+                child: const Text('Grundausbildung'),
               ),
             ),
             const SizedBox(height: 20),
-            Container(
+            SizedBox(
               width: buttonWidth,
               child: ElevatedButton(
                 onPressed: () => _selectTopic(context, 'FwDV3'),
-                child: const Text('FwDV3'),
                 style: ElevatedButton.styleFrom(
-                  minimumSize: Size(buttonWidth, buttonHeight),
+                  minimumSize: const Size(buttonWidth, buttonHeight),
                 ),
+                child: const Text('FwDV3'),
               ),
             ),
             const SizedBox(height: 40), // Größerer Abstand zum Statistik-Button
-            Container(
+            SizedBox(
               width: buttonWidth,
               child: ElevatedButton.icon(
                 onPressed: () => _showStatsScreen(context),
@@ -76,11 +87,26 @@ class InitialStartScreen extends StatelessWidget {
                   style: TextStyle(fontSize: 18.0),
                 ),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.red[300], // Unterschiedliche Hintergrundfarbe
-                  minimumSize: Size(buttonWidth, buttonHeight),
+                  backgroundColor: Colors.red[600],
+                  // Unterschiedliche Hintergrundfarbe
+                  minimumSize: const Size(buttonWidth, buttonHeight),
                 ),
               ),
             ),
+            const SizedBox(height: 20),
+            SizedBox(
+              width: buttonWidth,
+              child: ElevatedButton(
+                onPressed: () => _showDisclaimerScreen(context),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.red[300],
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 24.0, vertical: 16.0),
+                  textStyle: const TextStyle(fontSize: 18.0),
+                ),
+                child: const Text('Disclaimer'),
+              ),
+            )
           ],
         ),
       ),
