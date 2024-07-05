@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'disclaimer_screen.dart';
 import 'start_screen.dart';
 import 'stats_screen.dart';
@@ -20,7 +19,7 @@ class InitialStartScreen extends StatelessWidget {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => StatsScreen(), // Navigation zur Statistik-Seite
+        builder: (context) => StatsScreen(),
       ),
     );
   }
@@ -36,8 +35,8 @@ class InitialStartScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const double buttonHeight = 50.0; // Höhe der Buttons
-    const double buttonWidth = 200.0; // Breite der Buttons
+    const double buttonHeight = 50.0;
+    const double buttonWidth = 200.0;
 
     return Scaffold(
       appBar: AppBar(
@@ -76,7 +75,7 @@ class InitialStartScreen extends StatelessWidget {
                 child: const Text('FwDV3'),
               ),
             ),
-            const SizedBox(height: 40), // Größerer Abstand zum Statistik-Button
+            const Divider(height: 40, thickness: 2.0), // Trennlinie
             SizedBox(
               width: buttonWidth,
               child: ElevatedButton.icon(
@@ -88,20 +87,18 @@ class InitialStartScreen extends StatelessWidget {
                 ),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.red[600],
-                  // Unterschiedliche Hintergrundfarbe
                   minimumSize: const Size(buttonWidth, buttonHeight),
                 ),
               ),
             ),
-            const SizedBox(height: 20),
+            const Divider(height: 40, thickness: 2.0), // Trennlinie
             SizedBox(
               width: buttonWidth,
               child: ElevatedButton(
                 onPressed: () => _showDisclaimerScreen(context),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.red[300],
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 24.0, vertical: 16.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
                   textStyle: const TextStyle(fontSize: 18.0),
                 ),
                 child: const Text('Disclaimer'),
